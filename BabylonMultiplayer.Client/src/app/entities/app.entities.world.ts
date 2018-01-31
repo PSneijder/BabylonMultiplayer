@@ -8,6 +8,7 @@ export class World implements IWorld {
     players: Player[];
 
     constructor() {
+
         this.players = new Array<Player>();
     }
 }

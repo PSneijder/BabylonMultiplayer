@@ -4,18 +4,18 @@ import { NgModule } from '@angular/core';
 import { SignalRModule } from 'ngx-signalr';
 import { SignalRConfiguration } from 'ngx-signalr';
 
-import { AppComponent } from './app.component';
+import { AppGame } from './app.game';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppGame
   ],
   imports: [
     BrowserModule,
     SignalRModule.forRoot(createConfig)
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppGame]
 })
 export class AppModule { }
 

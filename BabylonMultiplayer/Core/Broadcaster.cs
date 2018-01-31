@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading;
 using BabylonMultiplayer.Entities;
 using BabylonMultiplayer.Hubs;
+using BabylonMultiplayer.Utilities;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Color = System.Drawing.Color;
 
 namespace BabylonMultiplayer.Core
 {
@@ -18,7 +20,7 @@ namespace BabylonMultiplayer.Core
 
         public Broadcaster()
         {
-            TimeSpan interval = TimeSpan.FromMilliseconds(40);
+            TimeSpan interval = TimeSpan.FromMilliseconds(500);
 
             _loop = new Timer(Broadcast, null, interval, interval);
         }
@@ -42,15 +44,6 @@ namespace BabylonMultiplayer.Core
             //_updated = true;
         }
 
-        public void Connect(string id)
-        {
-            var hub = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
-
-            string message = $"Player connected: {id}";
-
-            hub.Clients.All.connect(message);
-        }
-
         public void Update(Player player, string id)
         {
             if (_players.ContainsKey(id))
@@ -63,7 +56,9 @@ namespace BabylonMultiplayer.Core
         {
             if (!_players.ContainsKey(id))
             {
-                _players.Add(id, new Player(id));
+                _players.Add(id, new Player(id, ColorUtils.GenerateRandomColor(Color.Blue)));
+
+                Connect(id);
             }
         }
 
@@ -72,7 +67,27 @@ namespace BabylonMultiplayer.Core
             if (_players.ContainsKey(id))
             {
                 _players.Remove(id);
+
+                Disconnect(id);
             }
+        }
+
+        private void Connect(string id)
+        {
+            var hub = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+
+            string message = $"Player connected: {id}";
+
+            hub.Clients.All.connect(message);
+        }
+
+        private void Disconnect(string id)
+        {
+            var hub = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+
+            string message = $"Player disconnected: {id}";
+
+            hub.Clients.All.connect(message);
         }
 
         private IHubContext Get<T>() where T : IHub

@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Cors, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.4-preview1\lib\net45\System.Web.Cors.dll</HintPath>
@@ -85,9 +86,11 @@
   <ItemGroup>
     <Compile Include="Core\Broadcaster.cs" />
     <Compile Include="Core\CoreModule.cs" />
+    <Compile Include="Entities\Color.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\World.cs" />
     <Compile Include="Hubs\HubModule.cs" />
+    <Compile Include="Utilities\ColorUtils.cs" />
     <Compile Include="Utilities\NinjectSignalRDependencyResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

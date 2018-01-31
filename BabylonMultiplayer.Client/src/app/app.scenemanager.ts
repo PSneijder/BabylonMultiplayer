@@ -4,16 +4,19 @@ export class SceneManager {
     scene: BABYLON.Scene;
 
     constructor(engine: BABYLON.Engine) {
+
         this.scene = this.createScene(engine);
     }
 
     clearMeshes() {
+
         this.scene.meshes.forEach(mesh => {
             mesh.dispose();
         });
     }
 
     private createScene(engine: BABYLON.Engine): BABYLON.Scene {
+
         let scene = new BABYLON.Scene(engine);
         scene.clearColor = new BABYLON.Color4(0.8, 0.8, 0.8);
 
@@ -28,12 +31,13 @@ export class SceneManager {
 
         scene.actionManager = new BABYLON.ActionManager(scene);
 
-        this.showWorldAxis(scene, 5);
+        this.showAxis(scene, 5);
 
         return scene;
     }
 
-    private showWorldAxis(scene: any, size: number) {
+    private showAxis(scene: BABYLON.Scene, size: number) {
+
         let axisX = BABYLON.Mesh.CreateLines("axisX", [BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)], scene);
         axisX.color = new BABYLON.Color3(1, 0, 0);
 

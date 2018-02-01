@@ -4,7 +4,7 @@ import * as BABYLON from 'babylonjs';
 
 import { SignalR, SignalRConnection, BroadcastEventListener } from 'ngx-signalr';
 
-import { SceneManager } from './app.scenemanager';
+import { SceneManager } from './app.scene.manager';
 
 import { DrawableWorld } from './entities/drawable/app.entities.drawable.world';
 import { DrawablePlayer } from './entities/drawable/app.entities.drawable.player';
@@ -44,6 +44,8 @@ export class AppGame {
 
         this.initializeBabylonJS();
         this.initialize();
+      }).catch(_ => {
+
       });
   }
 
@@ -53,20 +55,22 @@ export class AppGame {
 
     if (!this.players) return;
 
-    var self = this;
-
     world.players.forEach(player => {
+
       if (!this.players.has(player.id)) {
+
         let drawable = new DrawablePlayer(this.connection, this.manager);
         Object.assign(drawable, player);
-        self.players.set(player.id, drawable);
+        this.players.set(player.id, drawable);
       } else {
-        let drawable = self.players.get(player.id);
+
+        let drawable = this.players.get(player.id);
         Object.assign(drawable, player);
-        self.players.set(player.id, drawable);
+        this.players.set(player.id, drawable);
       }
 
       if (player.id == this.player.id) {
+
         Object.assign(this.player, player);
       }
     });
@@ -81,8 +85,10 @@ export class AppGame {
 
     console.log(evt.message);
     if (this.players.has(evt.id)) {
+
       let player = this.players.get(evt.id);
       player.dispose();
+
       this.players.delete(evt.id);
     }
   }
@@ -121,13 +127,14 @@ export class AppGame {
 
     let manager = new SceneManager(engine);
 
-    var self = this;
+    engine.runRenderLoop(() => {
 
-    engine.runRenderLoop(function () {
       manager.scene.render();
 
-      if (!self.players) return;
-      self.players.forEach(player => {
+      if (!this.players) return;
+
+      this.players.forEach(player => {
+
         player.render();
       });
     });

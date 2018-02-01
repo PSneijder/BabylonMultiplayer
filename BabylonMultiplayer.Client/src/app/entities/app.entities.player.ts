@@ -1,6 +1,6 @@
 import { SignalRConnection } from "ngx-signalr/src/services/connection/signalr.connection";
 
-import { SceneManager } from "../app.scenemanager";
+import { SceneManager } from "../app.scene.manager";
 
 export interface IPlayer {
     id: string;
@@ -27,28 +27,24 @@ export class Player implements IPlayer {
             case 'w':
                 {
                     this.position.y += 1;
-                    console.log('updated position: ' + this.position);
                     this.sendToServer();
                 }
                 break;
             case 'a':
                 {
                     this.position.x -= 1;
-                    console.log('updated position: ' + this.position);
                     this.sendToServer();
                 }
                 break;
             case 's':
                 {
                     this.position.y -= 1;
-                    console.log('updated position: ' + this.position);
                     this.sendToServer();
                 }
                 break;
             case 'd':
                 {
                     this.position.x += 1;
-                    console.log('updated position: ' + this.position);
                     this.sendToServer();
                 }
                 break;

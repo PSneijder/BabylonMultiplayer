@@ -1,7 +1,7 @@
 import { SignalRConnection } from "ngx-signalr/src/services/connection/signalr.connection";
 
 import { Player, IPlayer } from "../app.entities.player";
-import { SceneManager } from "../../app.scenemanager";
+import { SceneManager } from "../../app.scene.manager";
 
 export interface IDrawablePlayer extends IPlayer {
     render()

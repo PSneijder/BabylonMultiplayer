@@ -21,7 +21,7 @@ namespace BabylonMultiplayer.Core
 
         public Broadcaster()
         {
-            TimeSpan interval = TimeSpan.FromMilliseconds(40);
+            TimeSpan interval = TimeSpan.FromMilliseconds(10);
 
             _loop = new Timer(Broadcast, null, interval, interval);
         }

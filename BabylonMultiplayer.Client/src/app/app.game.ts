@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
+import 'babylonjs-loaders';
 import * as BABYLON from 'babylonjs';
 
 import { SignalR, SignalRConnection, BroadcastEventListener } from 'ngx-signalr';
@@ -127,6 +128,7 @@ export class AppGame {
 
     let canvas = this.viewportViewChild.nativeElement;
     let engine = new BABYLON.Engine(canvas, true);
+    engine.enableOfflineSupport = false;
 
     let manager = new SceneManager(engine);
 

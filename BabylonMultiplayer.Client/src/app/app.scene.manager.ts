@@ -7,9 +7,10 @@ export interface IDrawable {
 
 export class SceneManager {
 
+    camera: BABYLON.FreeCamera;
     scene: BABYLON.Scene;
 
-    constructor(engine: BABYLON.Engine) {
+    constructor(public engine: BABYLON.Engine) {
 
         let scene = this.createScene(engine);
         scene.actionManager = new BABYLON.ActionManager(scene);
@@ -29,6 +30,8 @@ export class SceneManager {
 
         let camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(-10, 10, -10), scene);
         camera.setTarget(BABYLON.Vector3.Zero());
+
+        this.camera = camera;
 
         let light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(10, 10, 0), scene);
 

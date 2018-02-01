@@ -12,12 +12,25 @@ export class DrawablePlayer extends Player implements IDrawable {
 
         super(connection, manager);
 
-        this.id = 'Player01';
-        this.position = new BABYLON.Vector3(0, 0, 0);
-        this.color = new BABYLON.Color3(0, 0, 0);
-
         let box = BABYLON.Mesh.CreateBox("Box", 2, this.manager.scene);
         this.box = box;
+
+        // let assetsManager = new BABYLON.AssetsManager(this.manager.scene);
+        // let meshTask = assetsManager.addMeshTask("ObjLoader", "Box", "assets/models/", "cube.obj");
+
+        // assetsManager.onProgress = function (remaining, total, task) {
+        //     console.log(`Remaining ${remaining} Total ${total}`);
+        // }
+
+        // meshTask.onSuccess = function (task) {
+        //     console.log("Ok");
+        // }
+
+        // meshTask.onError = ((e, m, t) => {
+        //     console.log(m);
+        // });
+
+        // assetsManager.load();
 
         let material = new BABYLON.StandardMaterial("material", this.manager.scene);
         this.material = material;
@@ -26,6 +39,8 @@ export class DrawablePlayer extends Player implements IDrawable {
     }
 
     render() {
+
+        this.manager.camera.setTarget(this.box.position);
 
         this.box.position = new BABYLON.Vector3(this.position.x, this.position.y, this.position.z);
         this.material.emissiveColor = new BABYLON.Color3(this.color.r / 255, this.color.g / 255, this.color.b / 255);

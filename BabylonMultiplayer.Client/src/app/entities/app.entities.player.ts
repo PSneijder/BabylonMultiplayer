@@ -57,6 +57,6 @@ export class Player implements IPlayer {
 
     protected sendToServer() {
 
-        this.connection.invoke('sendMovement', <IPlayer>{ id: this.id, position: this.position });
+        this.connection.invoke('sendMovement', <IPlayer>{ id: this.id, position: this.position, color: this.color });
     }
 }

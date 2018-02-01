@@ -87,6 +87,8 @@
     <Compile Include="Core\Broadcaster.cs" />
     <Compile Include="Core\CoreModule.cs" />
     <Compile Include="Entities\Color.cs" />
+    <Compile Include="Entities\Events\OnConnectEvent.cs" />
+    <Compile Include="Entities\Events\OnDisconnectEvent.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\World.cs" />
     <Compile Include="Hubs\HubModule.cs" />

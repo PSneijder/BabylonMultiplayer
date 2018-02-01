@@ -1,3 +1,4 @@
+import { Player } from "./entities/app.entities.player";
 
 export class SceneManager {
 
@@ -5,14 +6,15 @@ export class SceneManager {
 
     constructor(engine: BABYLON.Engine) {
 
-        this.scene = this.createScene(engine);
+        let scene = this.createScene(engine);
+        scene.actionManager = new BABYLON.ActionManager(scene);
+
+        this.scene = scene;
     }
 
-    clearMeshes() {
+    registerAction(player: Player) {
 
-        this.scene.meshes.forEach(mesh => {
-            mesh.dispose();
-        });
+        this.scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, evt => player.OnkeyDown(evt)));
     }
 
     private createScene(engine: BABYLON.Engine): BABYLON.Scene {
@@ -24,12 +26,6 @@ export class SceneManager {
         camera.setTarget(BABYLON.Vector3.Zero());
 
         let light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(10, 10, 0), scene);
-
-        // let box = BABYLON.Mesh.CreateBox("Box", 2, scene);
-        // box.rotation.x = -0.8;
-        // box.rotation.y = 4.0;
-
-        scene.actionManager = new BABYLON.ActionManager(scene);
 
         this.showAxis(scene, 5);
 

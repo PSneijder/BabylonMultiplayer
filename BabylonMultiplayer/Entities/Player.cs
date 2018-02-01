@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
-using BabylonMultiplayer.Utilities;
+﻿using System.Numerics;
 using Newtonsoft.Json;
 
 namespace BabylonMultiplayer.Entities

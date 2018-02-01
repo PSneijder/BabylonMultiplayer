@@ -12,6 +12,8 @@ import { DrawablePlayer } from './entities/drawable/app.entities.drawable.player
 import { Player, IPlayer } from './entities/app.entities.player';
 import { World, IWorld } from './entities/app.entities.world';
 
+import { onConnectEvent, onDisconnectEvent } from './entities/app.entities.events';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.game.html',
@@ -22,24 +24,26 @@ export class AppGame {
   private connection: SignalRConnection;
   private manager: SceneManager;
 
-  private world: DrawableWorld;
   private player: Player;
+  private players: Map<string, DrawablePlayer>;
 
   @ViewChild('viewport') viewportViewChild: any;
   constructor(private signalR: SignalR) {
 
-    this.world = new DrawableWorld();
   }
 
   ngOnInit() {
 
     this.initializeSignalR();
-    this.initializeBabylonJS();
 
     this.connection.start()
       .then(_ => {
+
         this.player = new Player(this.connection, this.manager);
         this.player.id = this.connection.id;
+
+        this.initializeBabylonJS();
+        this.initialize();
       });
   }
 
@@ -47,33 +51,49 @@ export class AppGame {
 
   private onUpdate(world: IWorld) {
 
-    if (this.world != null)
-      this.world.players.forEach(player => {
+    if (!this.players) return;
 
-        player.dispose();
-      });
+    var self = this;
 
     world.players.forEach(player => {
+      if (!this.players.has(player.id)) {
+        let drawable = new DrawablePlayer(this.connection, this.manager);
+        Object.assign(drawable, player);
+        self.players.set(player.id, drawable);
+      } else {
+        let drawable = self.players.get(player.id);
+        Object.assign(drawable, player);
+        self.players.set(player.id, drawable);
+      }
 
-      let worldPlayer = new DrawablePlayer(this.connection, this.manager);
-      worldPlayer.id = player.id;
-      worldPlayer.position = player.position;
-      worldPlayer.color = player.color;
-      this.world.players.push(worldPlayer)
+      if (player.id == this.player.id) {
+        Object.assign(this.player, player);
+      }
     });
   }
 
-  private onConnect(message: string) {
+  private onConnect(evt: onConnectEvent) {
 
-    console.log(message);
+    console.log(evt.message);
   }
 
-  private onDisconnect(message: string) {
+  private onDisconnect(evt: onDisconnectEvent) {
 
-    console.log(message);
+    console.log(evt.message);
+    if (this.players.has(evt.id)) {
+      let player = this.players.get(evt.id);
+      player.dispose();
+      this.players.delete(evt.id);
+    }
   }
 
   // Initializations
+
+  private initialize() {
+
+    this.players = new Map<string, DrawablePlayer>();
+    this.manager.registerAction(this.player);
+  }
 
   private initializeSignalR() {
 
@@ -99,22 +119,19 @@ export class AppGame {
     let canvas = this.viewportViewChild.nativeElement;
     let engine = new BABYLON.Engine(canvas, true);
 
-    this.manager = new SceneManager(engine);
-    let scene = this.manager.scene;
+    let manager = new SceneManager(engine);
 
-    scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, evt => this.player.OnkeyDown(evt)));
+    var self = this;
 
     engine.runRenderLoop(function () {
-      scene.render();
-    });
+      manager.scene.render();
 
-    this.manager.scene.onAfterRenderObservable.add(scene => {
-
-      if (!this.world) return;
-
-      this.world.players.forEach(player => {
+      if (!self.players) return;
+      self.players.forEach(player => {
         player.render();
       });
     });
+
+    this.manager = manager;
   }
 }

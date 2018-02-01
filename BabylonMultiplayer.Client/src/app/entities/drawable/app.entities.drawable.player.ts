@@ -19,6 +19,7 @@ export class DrawablePlayer extends Player implements IDrawablePlayer {
 
         this.id = 'Player01';
         this.position = new BABYLON.Vector3(0, 0, 0);
+        this.color = new BABYLON.Color3(0, 0, 0);
 
         let box = BABYLON.Mesh.CreateBox("Box", 2, this.manager.scene);
         this.box = box;

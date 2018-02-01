@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using BabylonMultiplayer.Entities;
+using BabylonMultiplayer.Entities.Events;
 using BabylonMultiplayer.Hubs;
 using BabylonMultiplayer.Utilities;
 using Microsoft.AspNet.SignalR;
@@ -20,7 +21,7 @@ namespace BabylonMultiplayer.Core
 
         public Broadcaster()
         {
-            TimeSpan interval = TimeSpan.FromMilliseconds(500);
+            TimeSpan interval = TimeSpan.FromMilliseconds(40);
 
             _loop = new Timer(Broadcast, null, interval, interval);
         }
@@ -56,7 +57,7 @@ namespace BabylonMultiplayer.Core
         {
             if (!_players.ContainsKey(id))
             {
-                _players.Add(id, new Player(id, ColorUtils.GenerateRandomColor(Color.Blue)));
+                _players.Add(id, new Player(id, ColorUtils.GenerateRandomBrushColour()));
 
                 Connect(id);
             }
@@ -78,7 +79,7 @@ namespace BabylonMultiplayer.Core
 
             string message = $"Player connected: {id}";
 
-            hub.Clients.All.connect(message);
+            hub.Clients.All.connect(new OnConnectEvent(id, message));
         }
 
         private void Disconnect(string id)
@@ -87,7 +88,7 @@ namespace BabylonMultiplayer.Core
 
             string message = $"Player disconnected: {id}";
 
-            hub.Clients.All.connect(message);
+            hub.Clients.All.disconnect(new OnDisconnectEvent(id, message));
         }
 
         private IHubContext Get<T>() where T : IHub

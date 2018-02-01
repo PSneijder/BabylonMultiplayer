@@ -26,7 +26,7 @@ export class SceneManager {
     private createScene(engine: BABYLON.Engine): BABYLON.Scene {
 
         let scene = new BABYLON.Scene(engine);
-        scene.clearColor = new BABYLON.Color4(0.8, 0.8, 0.8);
+        scene.clearColor = BABYLON.Color4.FromInts(0, 128, 255, 255);
 
         let camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(-10, 10, -10), scene);
         camera.setTarget(BABYLON.Vector3.Zero());

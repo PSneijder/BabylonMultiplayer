@@ -18,7 +18,7 @@ export class DrawableBlock extends Block implements IDrawable {
         let material = new BABYLON.StandardMaterial("material", this.manager.scene);
         material.diffuseTexture = new BABYLON.Texture(`../../../assets/blocks/${name}.png`, this.manager.scene);
         material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-        material.emissiveColor = BABYLON.Color3.FromHexString("#b97a57");
+        material.emissiveColor = BABYLON.Color3.FromInts(128, 64, 0);
 
         this.material = material;
         this.box.material = this.material;

@@ -1,5 +1,10 @@
 import { Player } from "./entities/app.entities.player";
 
+export interface IDrawable {
+    render()
+    dispose()
+}
+
 export class SceneManager {
 
     scene: BABYLON.Scene;

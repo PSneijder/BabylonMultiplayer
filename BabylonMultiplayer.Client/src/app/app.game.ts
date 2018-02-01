@@ -6,13 +6,12 @@ import { SignalR, SignalRConnection, BroadcastEventListener } from 'ngx-signalr'
 
 import { SceneManager } from './app.scene.manager';
 
+import { onConnectEvent, onDisconnectEvent } from './entities/app.entities.events';
+
 import { DrawableWorld } from './entities/drawable/app.entities.drawable.world';
 import { DrawablePlayer } from './entities/drawable/app.entities.drawable.player';
-
 import { Player, IPlayer } from './entities/app.entities.player';
 import { World, IWorld } from './entities/app.entities.world';
-
-import { onConnectEvent, onDisconnectEvent } from './entities/app.entities.events';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +24,8 @@ export class AppGame {
   private manager: SceneManager;
 
   private player: Player;
+
+  private world: DrawableWorld;
   private players: Map<string, DrawablePlayer>;
 
   @ViewChild('viewport') viewportViewChild: any;
@@ -97,7 +98,9 @@ export class AppGame {
 
   private initialize() {
 
+    this.world = new DrawableWorld(this.manager);
     this.players = new Map<string, DrawablePlayer>();
+
     this.manager.registerAction(this.player);
   }
 
@@ -127,13 +130,17 @@ export class AppGame {
 
     let manager = new SceneManager(engine);
 
+    var self = this;
+
     engine.runRenderLoop(() => {
 
       manager.scene.render();
 
-      if (!this.players) return;
+      self.world.render();
 
-      this.players.forEach(player => {
+      if (!self.players) return;
+
+      self.players.forEach(player => {
 
         player.render();
       });

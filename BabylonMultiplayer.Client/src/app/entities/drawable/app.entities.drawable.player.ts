@@ -1,16 +1,16 @@
 import { SignalRConnection } from "ngx-signalr/src/services/connection/signalr.connection";
 
 import { Player, IPlayer } from "../app.entities.player";
-import { SceneManager, IDrawable } from "../../app.scene.manager";
+import { SceneManager, IDrawable } from "../../managers/app.scene.manager";
 
 export class DrawablePlayer extends Player implements IDrawable {
 
     private material: BABYLON.StandardMaterial;
     private box: BABYLON.Mesh;
 
-    constructor(connection: SignalRConnection, manager: SceneManager) {
+    constructor(private manager: SceneManager) {
 
-        super(connection, manager);
+        super();
 
         let box = BABYLON.Mesh.CreateBox("Box", 2, this.manager.scene);
         this.box = box;

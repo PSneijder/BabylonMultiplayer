@@ -5,7 +5,8 @@ import * as BABYLON from 'babylonjs';
 
 import { SignalR, SignalRConnection, BroadcastEventListener } from 'ngx-signalr';
 
-import { SceneManager } from './app.scene.manager';
+import { SceneManager } from './managers/app.scene.manager';
+import { PlayerManager } from './managers/app.player.manager';
 
 import { onConnectEvent, onDisconnectEvent } from './entities/app.entities.events';
 
@@ -21,10 +22,14 @@ import { World, IWorld } from './entities/app.entities.world';
 })
 export class AppGame {
 
+  message: string;
+
   private connection: SignalRConnection;
-  private manager: SceneManager;
 
   private player: Player;
+
+  private manager: SceneManager;
+  private playerManager: PlayerManager;
 
   private world: DrawableWorld;
   private players: Map<string, DrawablePlayer>;
@@ -41,42 +46,20 @@ export class AppGame {
     this.connection.start()
       .then(_ => {
 
-        this.player = new Player(this.connection, this.manager);
+        this.message = "Connection established.";
+
+        this.player = new Player();
         this.player.id = this.connection.id;
 
         this.initializeBabylonJS();
         this.initialize();
       }).catch(_ => {
 
+        this.message = "No connection available.";
       });
   }
 
   // SignalR Events
-
-  private onUpdate(world: IWorld) {
-
-    if (!this.players) return;
-
-    world.players.forEach(player => {
-
-      if (!this.players.has(player.id)) {
-
-        let drawable = new DrawablePlayer(this.connection, this.manager);
-        Object.assign(drawable, player);
-        this.players.set(player.id, drawable);
-      } else {
-
-        let drawable = this.players.get(player.id);
-        Object.assign(drawable, player);
-        this.players.set(player.id, drawable);
-      }
-
-      if (player.id == this.player.id) {
-
-        Object.assign(this.player, player);
-      }
-    });
-  }
 
   private onConnect(evt: onConnectEvent) {
 
@@ -95,14 +78,39 @@ export class AppGame {
     }
   }
 
+  private onUpdate(world: IWorld) {
+
+    if (!this.players) return;
+
+    world.players.forEach(player => {
+
+      if (!this.players.has(player.id)) {
+
+        let drawable = new DrawablePlayer(this.manager);
+        Object.assign(drawable, player);
+        this.players.set(player.id, drawable);
+      } else {
+
+        let drawable = this.players.get(player.id);
+        Object.assign(drawable, player);
+        this.players.set(player.id, drawable);
+      }
+
+      if (player.id == this.player.id) {
+
+        Object.assign(this.player, player);
+      }
+    });
+  }
+
   // Initializations
 
   private initialize() {
 
+    this.playerManager = new PlayerManager(this.player, this.manager, this.connection);
+
     this.world = new DrawableWorld(this.manager);
     this.players = new Map<string, DrawablePlayer>();
-
-    this.manager.registerAction(this.player);
   }
 
   private initializeSignalR() {
@@ -132,19 +140,18 @@ export class AppGame {
 
     let manager = new SceneManager(engine);
 
-    var self = this;
-
     engine.runRenderLoop(() => {
 
       manager.scene.render();
 
-      self.world.render();
+      this.world.render();
 
-      if (!self.players) return;
+      if (!this.players) return;
 
-      self.players.forEach(player => {
+      this.players.forEach(player => {
 
         player.render();
+
       });
     });
 

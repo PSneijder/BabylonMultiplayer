@@ -1,7 +1,7 @@
 import { DrawablePlayer } from './app.entities.drawable.player'
 import { DrawableBlock } from './app.entities.drawable.block'
 
-import { SceneManager, IDrawable } from "../../app.scene.manager";
+import { SceneManager, IDrawable } from "../../managers/app.scene.manager";
 
 export class DrawableWorld implements IDrawable {
 

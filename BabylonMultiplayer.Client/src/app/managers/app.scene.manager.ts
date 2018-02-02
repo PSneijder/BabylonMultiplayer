@@ -1,4 +1,6 @@
-import { Player } from "./entities/app.entities.player";
+import { Player } from "../entities/app.entities.player";
+
+type Predicate<T> = (item: T) => boolean;
 
 export interface IDrawable {
     render()
@@ -18,9 +20,9 @@ export class SceneManager {
         this.scene = scene;
     }
 
-    registerAction(player: Player) {
+    registerAction(trigger: number, action) {
 
-        this.scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, evt => player.OnkeyDown(evt)));
+        this.scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(trigger, action));
     }
 
     private createScene(engine: BABYLON.Engine): BABYLON.Scene {

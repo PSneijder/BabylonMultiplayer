@@ -1,7 +1,7 @@
 import { SignalRConnection } from "ngx-signalr/src/services/connection/signalr.connection";
 
 import { Block } from "../app.entities.block";
-import { SceneManager, IDrawable } from "../../app.scene.manager";
+import { SceneManager, IDrawable } from "../../managers/app.scene.manager";
 
 export class DrawableBlock extends Block implements IDrawable {
 

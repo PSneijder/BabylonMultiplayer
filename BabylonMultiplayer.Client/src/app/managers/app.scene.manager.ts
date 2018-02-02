@@ -1,10 +1,11 @@
 import { Player } from "../entities/app.entities.player";
 
-type Predicate<T> = (item: T) => boolean;
+import { DrawablePlayer } from "../entities/drawable/app.entities.drawable.player";
+import { DrawableWorld } from "../entities/drawable/app.entities.drawable.world";
 
 export interface IDrawable {
-    render()
-    dispose()
+    render();
+    dispose();
 }
 
 export class SceneManager {
@@ -18,6 +19,22 @@ export class SceneManager {
         scene.actionManager = new BABYLON.ActionManager(scene);
 
         this.scene = scene;
+    }
+
+    runRenderLoop(world: DrawableWorld, players: Map<string, DrawablePlayer>) {
+
+        this.engine.runRenderLoop(() => {
+
+            this.scene.render();
+
+            world.render();
+
+            if (!players) return;
+
+            players.forEach(player => {
+                player.render();
+            });
+        });
     }
 
     registerAction(trigger: number, action) {

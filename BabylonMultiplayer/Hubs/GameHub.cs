@@ -17,11 +17,16 @@ namespace BabylonMultiplayer.Hubs
             _broadcaster = broadcaster;
         }
         
-        public void SendMovement(Player player)
+        public void Update(Player player)
         {
             string connectionId = Context.ConnectionId;
 
             _broadcaster.Update(player, connectionId);
+        }
+
+        public void Refresh()
+        {
+            _broadcaster.Refresh();
         }
 
         public override Task OnConnected()

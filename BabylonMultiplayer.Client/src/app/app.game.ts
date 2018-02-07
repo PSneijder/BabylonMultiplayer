@@ -64,6 +64,8 @@ export class AppGame {
 
         this.sceneManager.runRenderLoop(this.world, this.players);
 
+        this.playerManager.refresh();
+
       }).catch(_ => {
 
         this.message = "No connection available.";

@@ -1,48 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using BabylonMultiplayer.Entities;
 using BabylonMultiplayer.Entities.Events;
 using BabylonMultiplayer.Hubs;
 using BabylonMultiplayer.Utilities;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using Color = System.Drawing.Color;
 
 namespace BabylonMultiplayer.Core
 {
     public sealed class Broadcaster
     {
         private readonly IDictionary<string, Player> _players = new Dictionary<string, Player>();
-        private readonly Timer _loop;
+        //private readonly Timer _loop;
 
         //private bool _updated;
 
         public Broadcaster()
         {
-            TimeSpan interval = TimeSpan.FromMilliseconds(10);
-
-            _loop = new Timer(Broadcast, null, interval, interval);
+            //TimeSpan interval = TimeSpan.FromMilliseconds(10);
+            //_loop = new Timer(Broadcast, null, interval, interval);
         }
 
-        public void Broadcast(object state)
+        public void Refresh()
         {
-            var hub = Get<GameHub>();
-
-            var world = new World
-            {
-                Players = _players.Values.ToArray()
-            };
-
-            hub.Clients.All.update(world);
-
-            //foreach (Player player in _players.Values)
-            //{
-            //    _hub.Clients.AllExcept(player.LastUpdatedBy).update(player);
-            //}
-
-            //_updated = true;
+            Broadcast();
         }
 
         public void Update(Player player, string id)
@@ -51,6 +33,8 @@ namespace BabylonMultiplayer.Core
             {
                 _players[id] = player;
             }
+
+            Broadcast(id);
         }
 
         public void AddPlayer(string id)
@@ -60,6 +44,8 @@ namespace BabylonMultiplayer.Core
                 _players.Add(id, new Player(id, ColorUtils.GenerateRandomBrushColour()));
 
                 Connect(id);
+
+                Broadcast();
             }
         }
 
@@ -70,6 +56,8 @@ namespace BabylonMultiplayer.Core
                 _players.Remove(id);
 
                 Disconnect(id);
+
+                Broadcast();
             }
         }
 
@@ -89,6 +77,25 @@ namespace BabylonMultiplayer.Core
             string message = $"Player disconnected: {id}";
 
             hub.Clients.All.disconnect(new OnDisconnectEvent(id, message));
+        }
+
+        private void Broadcast(string caller = null)
+        {
+            var hub = Get<GameHub>();
+
+            var world = new World
+            {
+                Players = _players.Values.ToArray()
+            };
+
+            if (caller == null)
+            {
+                hub.Clients.All.update(world);
+            }
+            else
+            {
+                hub.Clients.AllExcept(caller).update(world);
+            }
         }
 
         private IHubContext Get<T>() where T : IHub

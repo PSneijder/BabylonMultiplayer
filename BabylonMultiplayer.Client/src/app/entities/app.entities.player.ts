@@ -14,6 +14,8 @@ export class Player implements IPlayer {
     color: BABYLON.Color3;
 
     constructor(id: string = "") {
-        id = id;
+        this.id = id;
+        this.position = new BABYLON.Vector3(0, 0, 0);
+        this.color = new BABYLON.Color3(0, 0, 0);
     }
 }

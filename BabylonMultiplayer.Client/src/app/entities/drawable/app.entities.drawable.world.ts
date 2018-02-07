@@ -11,6 +11,7 @@ export class DrawableWorld implements IDrawable {
     constructor(private manager: SceneManager) {
 
         this.players = new Array<DrawablePlayer>();
+
         this.blocks = [
             new DrawableBlock("ground", new BABYLON.Vector3(0, -2, 0), this.manager),
             new DrawableBlock("ground", new BABYLON.Vector3(2, -2, 0), this.manager),

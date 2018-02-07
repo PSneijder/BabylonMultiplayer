@@ -1,0 +1,15 @@
+{
+"classname" "worldspawn"
+"sounds" "1"
+"MaxRange" "4096"
+"mapversion" "220"
+"wad" "\sierra\half-life\valve\cached.wad;\sierra\half-life\valve\decals.wad;\sierra\half-life\valve\gfx.wad;\sierra\half-life\valve\halflife.wad;\sierra\half-life\valve\liquids.wad;\sierra\half-life\valve\spraypaint.wad;\sierra\half-life\valve\xeno.wad"
+{
+( 0 0 0 ) ( 512 0 0 ) ( 512 -512 0 ) C1A3FLOOR02 [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1 
+( 0 -512 -64 ) ( 512 -512 -64 ) ( 512 0 -64 ) C1A3FLOOR02 [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1 
+( 0 0 0 ) ( 0 -512 0 ) ( 0 -512 -64 ) C1A3FLOOR02 [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1 
+( 512 0 -64 ) ( 512 -512 -64 ) ( 512 -512 0 ) C1A3FLOOR02 [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1 
+( 512 0 0 ) ( 0 0 0 ) ( 0 0 -64 ) C1A3FLOOR02 [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1 
+( 512 -512 -64 ) ( 0 -512 -64 ) ( 0 -512 0 ) C1A3FLOOR02 [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1 
+}
+}

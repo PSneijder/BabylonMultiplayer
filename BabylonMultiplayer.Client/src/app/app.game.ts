@@ -16,6 +16,8 @@ import { DrawablePlayer } from './entities/drawable/app.entities.drawable.player
 import { Player, IPlayer } from './entities/app.entities.player';
 import { World, IWorld } from './entities/app.entities.world';
 
+import { MapLoader } from './plugins/babylon.maploader';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.game.html',
@@ -62,9 +64,8 @@ export class AppGame {
         this.playerManager = new PlayerManager(this.player, this.sceneManager, this.connection);
         this.eventManager = new EventManager(this.player, this.players, this.sceneManager, this.connection);
 
-        this.sceneManager.runRenderLoop(this.world, this.players);
-
         this.playerManager.refresh();
+        this.sceneManager.runRenderLoop(this.world, this.players);
 
       }).catch(_ => {
 
@@ -88,6 +89,8 @@ export class AppGame {
     let engine = new BABYLON.Engine(canvas, true);
 
     engine.enableOfflineSupport = false;
+
+    BABYLON.SceneLoader.RegisterPlugin(new MapLoader());
 
     return engine;
   }

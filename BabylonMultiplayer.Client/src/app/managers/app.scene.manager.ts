@@ -18,6 +18,8 @@ export class SceneManager {
         let scene = this.createScene(engine);
         scene.actionManager = new BABYLON.ActionManager(scene);
 
+        //scene.debugLayer.show({ popup: false });
+
         this.scene = scene;
     }
 

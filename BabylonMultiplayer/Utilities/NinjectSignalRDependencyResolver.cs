@@ -23,8 +23,7 @@ namespace BabylonMultiplayer.Utilities
 
         public override IEnumerable<object> GetServices(Type serviceType)
         {
-            return _kernel.GetAll(serviceType)
-                            .Concat(base.GetServices(serviceType));
+            return _kernel.GetAll(serviceType).Concat(base.GetServices(serviceType));
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Ninject.Modules;
 
-namespace BabylonMultiplayer.Hubs
+namespace BabylonMultiplayer.Common
 {
-    sealed class HubModule
+    public sealed class CommonModule
         : NinjectModule
     {
         public override void Load()

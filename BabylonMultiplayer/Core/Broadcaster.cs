@@ -12,16 +12,7 @@ namespace BabylonMultiplayer.Core
     public sealed class Broadcaster
     {
         private readonly IDictionary<string, Player> _players = new Dictionary<string, Player>();
-        //private readonly Timer _loop;
-
-        //private bool _updated;
-
-        public Broadcaster()
-        {
-            //TimeSpan interval = TimeSpan.FromMilliseconds(10);
-            //_loop = new Timer(Broadcast, null, interval, interval);
-        }
-
+        
         public void Refresh()
         {
             Broadcast();

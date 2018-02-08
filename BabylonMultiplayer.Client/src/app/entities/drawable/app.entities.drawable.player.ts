@@ -20,8 +20,8 @@ export class DrawablePlayer extends Player implements IDrawable {
         }
 
         meshTask.onSuccess = function (task) {
-            console.log("Ok");
-            console.log(`Loaded Meshes: ${task.loadedMeshes.length}`);
+            //console.log("Ok");
+            //console.log(`Loaded Meshes: ${task.loadedMeshes.length}`);
         }
 
         meshTask.onError = ((e, m, t) => {

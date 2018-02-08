@@ -1,4 +1,5 @@
 import { ISceneLoaderPlugin } from "babylonjs";
+import { MapLoaderParser } from "./utilities/maploader.parser";
 
 export class MapLoader implements ISceneLoaderPlugin {
 
@@ -24,6 +25,7 @@ export class MapLoader implements ISceneLoaderPlugin {
     }
 
     private parse(data: string, meshes: BABYLON.AbstractMesh[]) {
-        console.log(`Parsing: ${data}`)
+        let parser = new MapLoaderParser();
+        let parsedMeshes = parser.parse(data);
     }
 }

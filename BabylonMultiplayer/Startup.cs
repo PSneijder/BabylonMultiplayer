@@ -49,11 +49,11 @@ namespace BabylonMultiplayer
         private IKernel CreateKernel(JsonSerializer serializer)
         {
             IKernel kernel = new StandardKernel();
-            kernel.Load(new CommonModule());
+            kernel.Load(new StartupModule());
             kernel.Load(new CoreModule());
+            kernel.Load(new CommonModule());
 
             kernel.TryGet<Broadcaster>();
-
             
             kernel.Bind<JsonSerializer>().ToConstant(serializer);
 

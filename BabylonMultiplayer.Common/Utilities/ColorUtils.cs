@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace BabylonMultiplayer.Utilities
+namespace BabylonMultiplayer.Common.Utilities
 {
     public static class ColorUtils
     {

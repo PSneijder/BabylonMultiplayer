@@ -12,23 +12,23 @@ export class DrawablePlayer extends Player implements IDrawable {
 
         super();
 
-        let assetsManager = new BABYLON.AssetsManager(this.manager.scene);
-        let meshTask = assetsManager.addMeshTask("MapLoader", "Obj", "assets/maps/", "simple.map");
+        // let assetsManager = new BABYLON.AssetsManager(this.manager.scene);
+        // let meshTask = assetsManager.addMeshTask("MapLoader", "Obj", "assets/maps/", "simple.map");
 
-        assetsManager.onProgress = function (remaining, total, task) {
-            console.log(`Remaining ${remaining} Total ${total}`);
-        }
+        // assetsManager.onProgress = function (remaining, total, task) {
+        //     console.log(`Remaining ${remaining} Total ${total}`);
+        // }
 
-        meshTask.onSuccess = function (task) {
-            //console.log("Ok");
-            //console.log(`Loaded Meshes: ${task.loadedMeshes.length}`);
-        }
+        // meshTask.onSuccess = function (task) {
+        //     //console.log("Ok");
+        //     //console.log(`Loaded Meshes: ${task.loadedMeshes.length}`);
+        // }
 
-        meshTask.onError = ((e, m, t) => {
-            console.log(m);
-        });
+        // meshTask.onError = ((e, m, t) => {
+        //     console.log(m);
+        // });
 
-        assetsManager.load();
+        // assetsManager.load();
 
         // var faceUV = new Array(6);
         // for (var i = 0; i < 6; i++) {

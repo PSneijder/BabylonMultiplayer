@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Newtonsoft.Json;
 
-namespace BabylonMultiplayer.Entities
+namespace BabylonMultiplayer.Core.Entities
 {
     public sealed class Player
     {

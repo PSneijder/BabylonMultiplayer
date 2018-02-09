@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using BabylonMultiplayer.Entities;
+using BabylonMultiplayer.Core.Entities;
 
 namespace BabylonMultiplayer.Controllers
 {

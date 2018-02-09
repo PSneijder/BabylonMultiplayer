@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
+using BabylonMultiplayer.Common;
 using BabylonMultiplayer.Core;
-using BabylonMultiplayer.Entities;
+using BabylonMultiplayer.Core.Entities;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
 namespace BabylonMultiplayer.Hubs
 {
-    [HubName("gamehub")]
+    [HubName(Constants.GameHub)]
     public class GameHub
 		: Hub
     {

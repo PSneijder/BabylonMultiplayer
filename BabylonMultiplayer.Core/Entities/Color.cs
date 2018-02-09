@@ -1,5 +1,5 @@
 ﻿
-namespace BabylonMultiplayer.Entities
+namespace BabylonMultiplayer.Core.Entities
 {
     public sealed class Color
     {

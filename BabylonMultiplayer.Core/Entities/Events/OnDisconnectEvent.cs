@@ -1,5 +1,5 @@
 ﻿
-namespace BabylonMultiplayer.Entities.Events
+namespace BabylonMultiplayer.Core.Entities.Events
 {
     public sealed class OnDisconnectEvent
     {

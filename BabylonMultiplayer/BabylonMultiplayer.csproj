@@ -94,15 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MapsController.cs" />
-    <Compile Include="Core\Broadcaster.cs" />
-    <Compile Include="CoreModule.cs" />
-    <Compile Include="Entities\Color.cs" />
-    <Compile Include="Entities\Events\OnConnectEvent.cs" />
-    <Compile Include="Entities\Events\OnDisconnectEvent.cs" />
-    <Compile Include="Entities\Map.cs" />
-    <Compile Include="Entities\Player.cs" />
-    <Compile Include="Entities\World.cs" />
-    <Compile Include="Utilities\ColorUtils.cs" />
+    <Compile Include="StartupModule.cs" />
     <Compile Include="Utilities\NinjectSignalRDependencyResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,6 +110,10 @@
     <ProjectReference Include="..\BabylonMultiplayer.Common\BabylonMultiplayer.Common.csproj">
       <Project>{3d5d83c4-2bd5-49f3-a511-1df72990840f}</Project>
       <Name>BabylonMultiplayer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BabylonMultiplayer.Core\BabylonMultiplayer.Core.csproj">
+      <Project>{bf2aef4c-ec24-4a3e-a89e-dacd603686bb}</Project>
+      <Name>BabylonMultiplayer.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

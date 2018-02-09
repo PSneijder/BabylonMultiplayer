@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using BabylonMultiplayer.Common.Resolvers;
+using Ninject.Modules;
 
 namespace BabylonMultiplayer.Common
 {
@@ -7,7 +8,7 @@ namespace BabylonMultiplayer.Common
     {
         public override void Load()
         {
-
+            Bind<IHubResolver>().To<HubResolver>().InSingletonScope();
         }
     }
 }

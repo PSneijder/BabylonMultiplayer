@@ -1,18 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BabylonMultiplayer.Entities;
-using BabylonMultiplayer.Entities.Events;
-using BabylonMultiplayer.Hubs;
-using BabylonMultiplayer.Utilities;
+using BabylonMultiplayer.Common;
+using BabylonMultiplayer.Common.Resolvers;
+using BabylonMultiplayer.Common.Utilities;
+using BabylonMultiplayer.Core.Entities;
+using BabylonMultiplayer.Core.Entities.Events;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
 
 namespace BabylonMultiplayer.Core
 {
     public sealed class Broadcaster
     {
+        private readonly IHubResolver _resolver;
         private readonly IDictionary<string, Player> _players = new Dictionary<string, Player>();
-        
+
+        public Broadcaster(IHubResolver resolver)
+        {
+            _resolver = resolver;
+        }
+
         public void Refresh()
         {
             Broadcast();
@@ -54,7 +60,7 @@ namespace BabylonMultiplayer.Core
 
         private void Connect(string id)
         {
-            var hub = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            IHubContext hub = _resolver.Resolve(Constants.GameHub);
 
             string message = $"Player connected: {id}";
 
@@ -63,7 +69,7 @@ namespace BabylonMultiplayer.Core
 
         private void Disconnect(string id)
         {
-            var hub = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            IHubContext hub = _resolver.Resolve(Constants.GameHub);
 
             string message = $"Player disconnected: {id}";
 
@@ -72,7 +78,7 @@ namespace BabylonMultiplayer.Core
 
         private void Broadcast(string caller = null)
         {
-            var hub = Get<GameHub>();
+            IHubContext hub = _resolver.Resolve(Constants.GameHub);
 
             var world = new World
             {
@@ -87,11 +93,6 @@ namespace BabylonMultiplayer.Core
             {
                 hub.Clients.AllExcept(caller).update(world);
             }
-        }
-
-        private IHubContext Get<T>() where T : IHub
-        {
-            return GlobalHost.ConnectionManager.GetHubContext<T>();
         }
     }
 }

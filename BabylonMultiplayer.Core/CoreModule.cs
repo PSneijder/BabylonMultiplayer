@@ -1,9 +1,8 @@
-﻿using BabylonMultiplayer.Core;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 
-namespace BabylonMultiplayer
+namespace BabylonMultiplayer.Core
 {
-    sealed class CoreModule
+    public sealed class CoreModule
         : NinjectModule
     {
         public override void Load()

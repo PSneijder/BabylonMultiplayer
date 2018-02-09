@@ -18,6 +18,8 @@ import { World, IWorld } from './entities/app.entities.world';
 
 import { MapLoader } from './plugins/babylon.maploader';
 
+import { MapService } from './services/map.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.game.html',
@@ -39,7 +41,7 @@ export class AppGame {
   private players: Map<string, DrawablePlayer>;
 
   @ViewChild('viewport') viewportViewChild: any;
-  constructor(private signalR: SignalR) {
+  constructor(private service: MapService, private signalR: SignalR) {
 
   }
 
@@ -62,7 +64,7 @@ export class AppGame {
         this.players = new Map<string, DrawablePlayer>();
 
         this.playerManager = new PlayerManager(this.player, this.sceneManager, this.connection);
-        this.eventManager = new EventManager(this.player, this.players, this.sceneManager, this.connection);
+        this.eventManager = new EventManager(this.service, this.player, this.players, this.sceneManager, this.connection);
 
         this.playerManager.refresh();
         this.sceneManager.runRenderLoop(this.world, this.players);

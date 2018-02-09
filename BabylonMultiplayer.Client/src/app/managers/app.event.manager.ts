@@ -1,4 +1,4 @@
-import { SignalRConnection } from 'ngx-signalr';
+import { SignalRConnection, BroadcastEventListener } from 'ngx-signalr';
 
 import { onConnectEvent, onDisconnectEvent } from "../entities/app.entities.events";
 import { Player } from "../entities/app.entities.player";
@@ -6,11 +6,12 @@ import { IWorld } from "../entities/app.entities.world";
 import { DrawablePlayer } from "../entities/drawable/app.entities.drawable.player";
 
 import { SceneManager } from "./app.scene.manager";
-import { BroadcastEventListener } from "ngx-signalr";
+
+import { MapService } from '../services/map.service';
 
 export class EventManager {
 
-    constructor(private player: Player, private players: Map<string, DrawablePlayer>, private manager: SceneManager, private connection: SignalRConnection) {
+    constructor(private service: MapService, private player: Player, private players: Map<string, DrawablePlayer>, private manager: SceneManager, private connection: SignalRConnection) {
 
         let opUpdate$ = new BroadcastEventListener('update');
         let opConnect$ = new BroadcastEventListener('connect');
@@ -24,6 +25,10 @@ export class EventManager {
 
         connection.listen(opDisconnect$);
         opDisconnect$.subscribe(this.onDisconnect.bind(this));
+
+        service.getMaps().then(a => {
+            console.log(a)
+        });
     }
 
     private onConnect(evt: onConnectEvent) {

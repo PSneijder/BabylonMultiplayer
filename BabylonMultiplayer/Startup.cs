@@ -1,4 +1,6 @@
-﻿using BabylonMultiplayer.Common;
+﻿using System.Net.Http.Formatting;
+using System.Web.Http;
+using BabylonMultiplayer.Common;
 using BabylonMultiplayer.Core;
 using BabylonMultiplayer.Utilities;
 using Microsoft.AspNet.SignalR;
@@ -14,10 +16,18 @@ namespace BabylonMultiplayer
     {
         public void Configuration(IAppBuilder app)
         {
-            IKernel kernel = CreateKernel();
+            var settings = new JsonSerializerSettings { ContractResolver = new SignalRContractResolver() };
+            var serializer = JsonSerializer.Create(settings);
 
+            IKernel kernel = CreateKernel(serializer);
+
+            var config = new HttpConfiguration();
             var resolver = new NinjectSignalRDependencyResolver(kernel);
-            var config = new HubConfiguration { EnableDetailedErrors = true, Resolver = resolver };
+            var hubConfig = new HubConfiguration { EnableDetailedErrors = true, Resolver = resolver };
+
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.Formatters.JsonFormatter.SerializerSettings = settings;
 
             GlobalHost.DependencyResolver = resolver;
 
@@ -27,12 +37,16 @@ namespace BabylonMultiplayer
 #if DEBUG
             app.UseErrorPage();
 #endif
-            app.MapSignalR(config);
+            app.MapSignalR(hubConfig);
+
+            config.MapHttpAttributeRoutes();
+
+            app.UseWebApi(config);
 
             app.UseWelcomePage();
         }
 
-        private IKernel CreateKernel()
+        private IKernel CreateKernel(JsonSerializer serializer)
         {
             IKernel kernel = new StandardKernel();
             kernel.Load(new CommonModule());
@@ -40,8 +54,7 @@ namespace BabylonMultiplayer
 
             kernel.TryGet<Broadcaster>();
 
-            var settings = new JsonSerializerSettings { ContractResolver = new SignalRContractResolver() };
-            var serializer = JsonSerializer.Create(settings);
+            
             kernel.Bind<JsonSerializer>().ToConstant(serializer);
 
             return kernel;

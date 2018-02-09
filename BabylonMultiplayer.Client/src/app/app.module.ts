@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { SignalRModule } from 'ngx-signalr';
@@ -6,15 +7,18 @@ import { SignalRConfiguration } from 'ngx-signalr';
 
 import { AppGame } from './app.game';
 
+import { MapService } from './services/map.service';
+
 @NgModule({
   declarations: [
     AppGame
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     SignalRModule.forRoot(createConfig)
   ],
-  providers: [],
+  providers: [MapService],
   bootstrap: [AppGame]
 })
 export class AppModule { }
